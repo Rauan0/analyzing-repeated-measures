@@ -1,1 +1,1 @@
-# analyzing-repeated-measures
+Your report should consist of the sections Introduction, Methods, Results and Discussion. Each part of the report should be written as a reproducible document and a link or reference to the repository containing the source document(s) should be included in the report.
