@@ -1,0 +1,24 @@
+---
+title: "Assignment 5: Analyzing repeated measures experiments"
+author: "Anders Rauan"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(exscidata)
+data("strengthvolume")
+data("dxadata")
+```
+
+# Introduction
+
+# Methods
+
+# Results
+
+# Discussion
+
+# Conclusion
