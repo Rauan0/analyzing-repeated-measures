@@ -8,6 +8,8 @@ editor_options:
 ---
 
 ```{r}
+library(remotes)
+install_github("dhammarstrom/exscidata")
 library(exscidata)
 data("strengthvolume")
 data("dxadata")
@@ -15,7 +17,60 @@ data("dxadata")
 
 # Introduction
 
+Resistance-training volume (RTV), muscle strength (MS) and muscle mass (MM) are heavily researched topics in the field of resistance training. A search for muscle mass on PubMed gives more than 97,000 results, while searches for RTV and MS gives respectively 3,000 results and 89,000 results. Vandré Casagrande Figueiredo describes RTV as "the product of the number of repetitions \* number of sets \* intensity load" \[Figueiredo_2018\]. Muscle strength is defined as "the maximal capacity of a muscle, or group of muscles, to exert a force under a given set of conditions" \[Quartier_Gherardi_2013\].
+
 # Methods
+
+### Participants and study overview
+
+The study had a total of 41 participants recruited, both male and female. Inclusion criteria for the participants was non-smoking and aged between 18 and 40 years old. Participants who were unable to tolerate local anaesthetic, had a prior training history of more than one weekly resistance-exercise session within the last year leading up to the intervention, had impaired muscle strength due to previous or ongoing injury, or were taking prescribed medication that could impact adaptions to training were excluded from the study.
+
+During the data analysis, seven participants were excluded. The reasons for their exclusion were: five participants experienced discomfort or pain in their lower extremities during exercise, one participant had an unrelated injury, and one participant did not follow the study protocol. It is important to note that there were no notable differences in maximal voluntary contraction (MVC) normalized to body mass or anthropometric measurements between the included and excluded participants at the baseline (refer to Table 1).
+
+Among the participants who were included in the study, one opted not to undergo biopsy and blood sampling during Week 2. Additionally, due to difficulties with sampling, blood was not collected from three participants at different time-points.
+
+All of the participants included in the study reported having previous experience with sporting activities such as team sports, cross-country skiing and gymnastics. At the time of enrollment, twenty participants reported being engaged in physical training. The median number of sessions per week was two, with a range of 0.5 to 4. Out of these participants, ten performed occasional resistance-type training, but none of them did it more than once per week.
+
+Table 1: Participant characteristics
+
+```{r}
+# Load the required libraries
+library(dplyr)
+library(gt)
+library(tidyr)  # Load the tidyr package
+
+# Create a data frame with the provided data
+data <- data.frame(
+  Gender = c("Female", "Male", "Female", "Male"),
+  Group = rep(c("Included", "Excluded"), times = 4),
+  N = c(18, 4, 16, 3),
+  Age = c("22.0 (1.3)", "22.9 (1.6)", "23.6 (4.1)", "24.3 (1.5)"),
+  Mass = c("64.4 (10.4)", "64.6 (9.7)", "75.8 (10.7)", "88.2 (22.4)"),
+  Stature = c("168 (7)", "166 (8)", "183 (6)", "189 (5)"),
+  BodyFat = c("34.1 (5.6)", "28.8 (8.7)", "20.4 (6.0)", "24.3 (15.3)"),
+  MVC = c("3.1 (0.5)", "3.6 (0.5)", "3.7 (0.6)", "3.9 (0.7)")
+)
+
+# Reshape the data to have variables on the Y-axis using gather
+data_reshaped <- data %>%
+  gather(Variable, Value, N, Age, Mass, Stature, BodyFat, MVC)
+
+# Create a gt table from the reshaped data
+formatted_table <- data_reshaped %>%
+  gt() %>%
+  tab_header(
+    title = "Table Title",
+    subtitle = "Subtitle"
+  ) %>%
+  fmt_number(
+    columns = vars(Value),
+    decimals = 1
+  )
+
+# Display the table
+formatted_table
+
+```
 
 # Results
 

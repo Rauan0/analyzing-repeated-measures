@@ -1,0 +1,33 @@
+---
+output: html_document
+bibliography: references.bib  
+---
+
+@article{Figueiredo_2018,
+    title = {Volume for Muscle Hypertrophy and Health Outcomes: The Most Effective Variable in Resistance Training},
+    volume = {48},
+    issn = {0112-1642},
+    doi = {https://doi.org/10.1007/s40279-017-0793-0},
+    language = {en},
+    number = {6},
+    journal = {Sports Medicine},
+    author = {Figueiredo, V. C., de Salles, B. F. and Trajano, G. S.},
+    year = {2018},
+    pages = {499--505},
+}
+
+ @inbook{Quartier_Gherardi_2013, 
+ series={Handbook of Clinical Neurology}, 
+ title={Chapter 149 - Juvenile dermatomyositis}, 
+ volume={113}, 
+ ISSN={0072-9752}, 
+ url={https://www.sciencedirect.com/science/article/pii/B9780444595652000149}, 
+ DOI={https://doi.org/10.1016/B978-0-444-59565-2.00014-9}, 
+ booktitle={Pediatric Neurology Part III}, 
+ publisher={Elsevier}, 
+ author={Quartier, Pierre and Gherardi, Romain K.}, 
+ editor={Dulac, Olivier and Lassonde, Maryse and Sarnat, Harvey B.}, 
+ year={2013}, 
+ pages={1457–1463}, 
+ collection={Handbook of Clinical Neurology} 
+}
