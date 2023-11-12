@@ -9,30 +9,8 @@ linestretch: 1.5
 bibliography: bibliography.bib
 ---
 
-```{r}
-#| echo: FALSE
-#| include: FALSE
-#| warning: FALSE
-#| message: FALSE
 
-library(tidyverse)
-library(exscidata)
-library(lme4)
-library(gt)
 
-data("strengthvolume")
-data("dxadata")
-
-sub.dxa <- dxadata %>%
-  select(participant:include, lean.left_leg, lean.right_leg) %>%
-  pivot_longer(names_to = "leg", 
-               values_to = "lean.mass", 
-               cols = lean.left_leg:lean.right_leg) %>%
-  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
-         sets = if_else(multiple == leg, "multiple", "single")) %>%
-  select(participant, time, sex, include, sets, leg, lean.mass) %>%
- print()
-```
 
 # Introduction
 
@@ -48,49 +26,24 @@ With this in mind, the purpose of this study is to investigate developments in m
 
 The study had a total of 41 participants recruited, both male and female. Inclusion criteria for the participants was non-smoking and aged between 18 and 40 years old. Participants who were unable to tolerate local anaesthetic, had a prior training history of more than one weekly resistance-exercise session within the last year leading up to the intervention, had impaired muscle strength due to previous or ongoing injury, or were taking prescribed medication that could impact adaptions to training were excluded from the study. During the data analysis, seven participants were excluded. The reasons for their exclusion were: five participants experienced discomfort or pain in their lower extremities during exercise, one participant had an unrelated injury, and one participant did not follow the study protocol. All of the participants included in the study reported having previous experience with sporting activities such as team sports, cross-country skiing and gymnastics. At the time of enrollment, twenty participants reported being engaged in physical training. The median number of sessions per week was two, with a range of 0.5 to 4. Out of these participants, ten performed occasional resistance-type training, but none of them did it more than once per week.
 
-```{r}
-#| echo: FALSE
-#| warning: FALSE
-#| message: FALSE
-#| tbl-cap: "Participant characteristics"
-#| label: tbl-part
 
-dxadata %>%
-  select(participant, time, sex, include:weight) %>%
-  filter(time == "pre") %>%
-  group_by(sex, include) %>%
-  mutate(n = n()) %>%
+::: {#tbl-part .cell tbl-cap='Participant characteristics'}
+::: {.cell-output-display}
+\begin{longtable}{crrrr}
+\toprule
+ & \multicolumn{2}{c}{Female} & \multicolumn{2}{c}{Male} \\ 
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+  & Included & Excluded & Included & Excluded \\ 
+\midrule
+n & 18 & 4 & 16 & 3 \\ 
+Age & 22 (1.3) & 22.9 (1.6) & 23.6 (4.1) & 24.3 (1.5) \\ 
+Weight (kg) & 64.4 (10) & 64.6 (9.7) & 75.8 (11) & 88.2 (22) \\ 
+Height (cm) & 168 (6.9) & 166 (7.6) & 183 (5.9) & 189 (4.6) \\ 
+\bottomrule
+\end{longtable}
+:::
+:::
 
-  pivot_longer(names_to =  "variable", 
-               values_to = "value", 
-               cols = age:n) %>%
-  group_by(sex, include, variable) %>%
-  summarise(m = mean(value), 
-            s = sd(value)) %>%
-  ungroup() %>%
-  mutate(m = signif(m, digits = 3), 
-         s = signif(s, digits = 2), 
-         ms = if_else(variable == "n", as.character(m), paste0(m, " (", s, ")")), 
-         sex_incl = paste(sex, include, sep = "_")) %>%
-  dplyr::select(-m, -s, - sex, -include) %>%
-
-  pivot_wider(names_from = sex_incl, 
-              values_from = ms) %>%
-  select(variable, female_incl, female_excl, male_incl, male_excl) %>%
-  mutate(variable = factor(variable, levels = c("n", "age", "weight", "height"), 
-                           labels = c("n", "Age", "Weight (kg)", 
-                                      "Height (cm)"))) %>%
-  arrange(variable) %>%
-  
-  gt() %>%
-  tab_spanner(label = "Female", columns = c("female_incl", "female_excl")) %>%
-  tab_spanner(label = "Male", columns = c("male_incl", "male_excl")) %>%
-  cols_label(variable = " ", 
-             female_incl = "Included", 
-             female_excl = "Excluded", 
-             male_incl = "Included", 
-             male_excl = "Excluded")
-```
 Data is presented as mean ± standard deviation.
 
 #### Study overview
@@ -115,199 +68,28 @@ Data analysis was performed in RStudio. To compare changes in MM and MS, a paire
 
 # Results
 
-```{r}
-#| label: "Load packages and data"
-#| warning: false
-#| message: false
-#| echo: false
-#| output: false
 
-library(tidyverse)
-library(exscidata)
-library(lme4)
+::: {.cell}
 
-## Import data set, extract leg lean mass per leg and remove observations
-# that are include == "excl".
-
-leanmass <- dxadata %>%
-  select(participant:include, lean.left_leg, lean.right_leg) %>%
-  pivot_longer(names_to = "leg", 
-               values_to = "lean.mass", 
-               cols = lean.left_leg:lean.right_leg) %>%
-  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
-         sets = if_else(multiple == leg, "multiple", "single")) %>%
-  select(participant, time, sex, include, sets, leg, lean.mass) %>%
-  filter(include == "incl") %>%
-  
-  ## Change levels for time and sets
-  mutate(time = factor(time, levels = c("pre", "post")), 
-         sets = factor(sets, levels = c("single", "multiple")), 
-         leg = paste0(participant, leg)) %>%
-  
-  print()
-
-
-# Create a wide data set of change scores per volume condition
-# suitable for a t-test
-leanmass_change_wide <- leanmass %>%
-  pivot_wider(names_from = time, values_from = lean.mass) %>%
-  mutate(change = post - pre) %>%
-  
-  select(participant, sex, sets, change) %>%
-  pivot_wider(names_from = sets, 
-              values_from = change) %>%
-  
-  mutate(diff = multiple - single) %>%
-  
-  print()
-
-
-leanmass_change_wide_time <- leanmass %>%
-  pivot_wider(names_from = time, values_from = lean.mass) %>%
-
-  select(participant, sex, sets, pre, post) %>%
-  
-  print()
+:::
 
 
 
+::: {.cell}
+::: {.cell-output-display}
+![Mean change in muscle strength](analyzing-repeated-measures-experiments_files/figure-pdf/fig-1-1.pdf){#fig-1}
+:::
+:::
 
-## Do a t-test on change scores per condition. 
-
-## Alternatives (paired, equal variation)
-tt1 <- with(leanmass_change_wide, t.test(multiple, single, paired = TRUE))
-
-## The same model but with lm
-m1 <- lm(diff ~ 1, data = leanmass_change_wide)
-
-summary(m1)
-
-### How to extract data from a model:
-
-# m1 is a linear model of difference in differences
-# we can use it for inference, extract average diff and confidence 
-# intervals and p-value
-
-# Save all elements of inline results
-m1pval <- round(coef(summary(m1))[1, 4], 3)
-m1est <- round(coef(summary(m1))[1, 1], 1)
-
-m1ciu <- round(confint(m1)[1,2], 1)
-m1cil <- round(confint(m1)[1,1], 1)
-
-# Combine into an object
-m1results <- paste0(m1est, 
-                    " g, 95% CI: [",
-                    m1cil, 
-                    ", ",
-                    m1ciu, 
-                    "], p = ",
-                    m1pval
-                    )
-
-```
-
-
-```{r}
-#| echo: FALSE
-#| message: FALSE
-#| warning: FALSE
-#| include: FALSE
-
-## Muscle strength
-
-musclestrength <- strengthvolume %>%
-  select(participant:load) %>%
-        filter(include == "incl") %>%
-        
-        mutate(time = if_else(time %in% c("pre", "session1"), "pre", time)) %>%
-        group_by(time, exercise, participant, sex, sets) %>%
-        summarise(load = mean(load, na.rm = TRUE)) %>%
-        filter(exercise == "legpress", 
-                time %in% c("pre", "post")) %>%
-        pivot_wider(names_from = "time",
-                    values_from = "load") %>%
-        mutate(change = post - pre) %>% 
-        select(participant:sets, change) %>%
-        pivot_wider(names_from = sets, 
-                    values_from = change) %>%
-
-  print()
-
-# Paired t-test
-t.test(musclestrength$multiple, musclestrength$single, paired = TRUE)
-
-
-```
-
-
-```{r}
-#| echo: FALSE
-#| message: FALSE
-#| warning: FALSE
-#| fig-cap: "Mean change in muscle strength"
-#| label: "fig-1"
-
-## Create a figure that shows mean change in muscle strength
-
-## Import data set
-strengthvolume %>%
-  select(participant, include, time, sets, leg, exercise, load) %>%
-  filter(!is.na(time), exercise == "legpress") %>% 
-  group_by(time, sets) %>% 
-  summarise(gj.load = mean(load, na.rm = TRUE)) %>% 
-  filter(time %in% c("pre", "post")) %>% 
-  mutate(time = factor(time, levels = c("pre", "post", na.rm = TRUE))) %>% 
-
-## Set up the figure
-  ggplot(aes(time, gj.load, color = sets,
-             group = sets)) + 
-  geom_line(size = 2) + 
-  geom_point(size = 3) +
-  scale_color_manual(values = c("red", "blue")) +
-  labs(x = "Time of testing", 
-       y = "Leg press load (kg)",
-       color = "Number of sets")
-
-```
 Figure 1 shows the differences in 1RM in leg press between single-set and multiple-set. The average difference in 1RM between sets were 7.2 kg, 95% CI: [0.9, 13.5], p = 0.026. Both legs have increased in muscle strength, but the legs that did three sets have increased significantly more than the legs that did one set.
-```{r}
-#| echo: FALSE
-#| message: FALSE
-#| warning: FALSE
-#| fig-cap: "Mean change in muscle mass"
-#| label: "fig-2"
 
+::: {.cell}
+::: {.cell-output-display}
+![Mean change in muscle mass](analyzing-repeated-measures-experiments_files/figure-pdf/fig-2-1.pdf){#fig-2}
+:::
+:::
 
-## Create a figure that shows mean change in MM
-
-## Import data set
-dxadata %>%
-  select(participant:include, lean.left_leg, lean.right_leg) %>%
-  pivot_longer(names_to = "leg", 
-               values_to = "lean.mass.legs", 
-               cols = lean.left_leg:lean.right_leg) %>%
-  
-  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
-         sets = if_else(multiple == leg, "multiple", "single")) %>%
-  
-  select(participant, time, sex, include, sets, leg, lean.mass.legs) %>%
-  group_by(time, sets) %>%
-  summarise(mean = mean(lean.mass.legs)) %>%
-  mutate(time = factor(time, levels = c("pre", "post"))) %>%
-
-## Set up the figure 
-  ggplot(aes(time, mean, color = sets,
-             group = sets)) + 
-  geom_line(size = 2) + 
-  geom_point(size = 3) + 
-  scale_color_manual(values = c("red", "blue")) +
-  labs(x = "Time of testing",
-       y = "Lean muscle mass (g)",
-       color = "Number of sets")
-
-```
-Figure 2 shows the differences in lean mass between single-set and multiple-set. The average difference in lean mass changes between sets were `r m1results`. Both legs have increased muscle mass but the legs that did three sets have increased significantly more than the legs that did one set.
+Figure 2 shows the differences in lean mass between single-set and multiple-set. The average difference in lean mass changes between sets were 122.8 g, 95% CI: [8.6, 237], p = 0.036. Both legs have increased muscle mass but the legs that did three sets have increased significantly more than the legs that did one set.
 
 # Discussion
 
@@ -317,3 +99,4 @@ The results supports finds from previous studies [@schoenfeld_2019]. Schoenfeld'
 
 # Conclusion
 For untrained individuals who works out to enjoy the health benefits of resistance training, a single-set workout will be adequate up to a certain point. If resistance training is found to be enjoyable and the individuals want to see more progression, a higher volume is preferrable and will yield a significantly higher level of muscle strength and muscle mass. This may even be required after a certain point in time to see any progression, but research over a longer period of time is needed to say this with certainty.  
+

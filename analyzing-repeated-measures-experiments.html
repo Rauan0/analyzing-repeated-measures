@@ -8,7 +8,7 @@
 
 <meta name="author" content="Anders Rauan">
 
-<title>Assignment 5: Analyzing repeated measures experiments</title>
+<title>The effect of different resistance training volumes on muscle strength and muscle mass in untrained individuals</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-</style>
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="analyzing-repeated-measures-experiments_files/libs/clipboard/clipboard.min.js"></script>
@@ -72,15 +57,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="analyzing-repeated-measures-experiments.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Assignment 5: Analyzing repeated measures experiments</h1>
+<h1 class="title">The effect of different resistance training volumes on muscle strength and muscle mass in untrained individuals</h1>
 </div>
 
 
@@ -101,148 +87,594 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(remotes)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"dhammarstrom/exscidata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Skipping install of 'exscidata' from a github remote, the SHA1 (f70efb3a) has not changed since last install.
-  Use `force = TRUE` to force installation</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(exscidata)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"strengthvolume"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"dxadata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Resistance-training volume (RTV), muscle strength (MS) and muscle mass (MM) are heavily researched topics in the field of resistance training. A search for muscle mass on PubMed gives more than 97,000 results, while searches for RTV and MS gives respectively 3,000 results and 89,000 results. Vandré Casagrande Figueiredo describes RTV as “the product of the number of repetitions * number of sets * intensity load” [Figueiredo_2018]. Muscle strength is defined as “the maximal capacity of a muscle, or group of muscles, to exert a force under a given set of conditions” [Quartier_Gherardi_2013].</p>
+<p>Resistance training volume, muscle strength and muscle mass are heavily researched topics in the field of resistance training. A search for muscle mass on PubMed gives 97,000 results, while searches for resistance training volume and muscle strength gives respectively 3,000 results and 89,000 results. It is well documented that resistance training is an effective way to increase both muscle strength and muscle mass <span class="citation" data-cites="de_zouza_2018 kennis_2013 cadore_2018">(<a href="#ref-de_zouza_2018" role="doc-biblioref">De Souza et al. 2018</a>; <a href="#ref-kennis_2013" role="doc-biblioref">Kennis et al. 2013</a>; <a href="#ref-cadore_2018" role="doc-biblioref">Cadore et al. 2018</a>)</span>. Resistance training has been found to have a positive impact on various aspects of health, including enhancing physical performance, improving movement control, increasing walking speed, promoting functional independence, boosting cognitive abilities, and enhancing self-esteem <span class="citation" data-cites="westcott_2012">(<a href="#ref-westcott_2012" role="doc-biblioref">Westcott 2012</a>)</span>. Resistance training can also aid in improving mental health. A meta-analysis found that anxiety symptoms in both healthy participants and participans with a physical or mental illness significantly improved <span class="citation" data-cites="gordon_2017">(<a href="#ref-gordon_2017" role="doc-biblioref">Gordon et al. 2017</a>)</span>.</p>
+<p>There are different definitions of resistance training volume, but Vandré Casagrande Figueiredo describes it as “the product of the number of repetitions x number of sets x intensity load” <span class="citation" data-cites="figueiredo_2018">(<a href="#ref-figueiredo_2018" role="doc-biblioref">Figueiredo and Trajano 2018</a>)</span>. People who participate in resistance training use different volumes based on their goals. Lower volume and heavy loads is generally used to stimulate muscle strength, while higher volume and lower loads is more often used to stimulate muscle growth and increase muscle mass <span class="citation" data-cites="acsm_2009">(<a href="#ref-acsm_2009" role="doc-biblioref">ACSM 2009</a>)</span>. For the average individual who does not care to optimize muscle strength or muscle growth, but rather works out purely for their health, it may be difficult to know which volume should be used in their training. They may not want to spend more time in the gym than necessary and therefore want to know how little volume they would have to do to still be able to see results and progression. Studies investigating this on trained men have already been conducted <span class="citation" data-cites="schoenfeld_2019">(<a href="#ref-schoenfeld_2019" role="doc-biblioref">Schoenfeld et al. 2019</a>)</span>. It is likely more important to conduct studies for those who already struggle with getting to the gym to know which volume they should settle for, as they likely lack both experience and knowledge.</p>
+<p>With this in mind, the purpose of this study is to investigate developments in muscle strength and muscle mass in untrained individuals with different resistance training volume.</p>
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
-<section id="participants-and-study-overview" class="level3">
-<h3 class="anchored" data-anchor-id="participants-and-study-overview">Participants and study overview</h3>
-<p>The study had a total of 41 participants recruited, both male and female. Inclusion criteria for the participants was non-smoking and aged between 18 and 40 years old. Participants who were unable to tolerate local anaesthetic, had a prior training history of more than one weekly resistance-exercise session within the last year leading up to the intervention, had impaired muscle strength due to previous or ongoing injury, or were taking prescribed medication that could impact adaptions to training were excluded from the study.</p>
-<p>During the data analysis, seven participants were excluded. The reasons for their exclusion were: five participants experienced discomfort or pain in their lower extremities during exercise, one participant had an unrelated injury, and one participant did not follow the study protocol. It is important to note that there were no notable differences in maximal voluntary contraction (MVC) normalized to body mass or anthropometric measurements between the included and excluded participants at the baseline (refer to Table 1).</p>
-<p>Among the participants who were included in the study, one opted not to undergo biopsy and blood sampling during Week 2. Additionally, due to difficulties with sampling, blood was not collected from three participants at different time-points.</p>
-<p>All of the participants included in the study reported having previous experience with sporting activities such as team sports, cross-country skiing and gymnastics. At the time of enrollment, twenty participants reported being engaged in physical training. The median number of sessions per week was two, with a range of 0.5 to 4. Out of these participants, ten performed occasional resistance-type training, but none of them did it more than once per week.</p>
-<p>Table 1: Participant characteristics</p>
+<section id="participants" class="level4">
+<h4 class="anchored" data-anchor-id="participants">Participants</h4>
+<p>The study had a total of 41 participants recruited, both male and female. Inclusion criteria for the participants was non-smoking and aged between 18 and 40 years old. Participants who were unable to tolerate local anaesthetic, had a prior training history of more than one weekly resistance-exercise session within the last year leading up to the intervention, had impaired muscle strength due to previous or ongoing injury, or were taking prescribed medication that could impact adaptions to training were excluded from the study. During the data analysis, seven participants were excluded. The reasons for their exclusion were: five participants experienced discomfort or pain in their lower extremities during exercise, one participant had an unrelated injury, and one participant did not follow the study protocol. All of the participants included in the study reported having previous experience with sporting activities such as team sports, cross-country skiing and gymnastics. At the time of enrollment, twenty participants reported being engaged in physical training. The median number of sessions per week was two, with a range of 0.5 to 4. Out of these participants, ten performed occasional resistance-type training, but none of them did it more than once per week.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
+<div class="cell-output-display">
+<div id="tbl-part" class="anchored">
 
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
+<div id="acznjfzslq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#acznjfzslq table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'kableExtra'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:dplyr':
+#acznjfzslq thead, #acznjfzslq tbody, #acznjfzslq tfoot, #acznjfzslq tr, #acznjfzslq td, #acznjfzslq th {
+  border-style: none;
+}
 
-    group_rows</code></pre>
+#acznjfzslq p {
+  margin: 0;
+  padding: 0;
+}
+
+#acznjfzslq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#acznjfzslq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#acznjfzslq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#acznjfzslq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#acznjfzslq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#acznjfzslq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#acznjfzslq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#acznjfzslq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#acznjfzslq .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#acznjfzslq .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#acznjfzslq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#acznjfzslq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#acznjfzslq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#acznjfzslq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#acznjfzslq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acznjfzslq .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#acznjfzslq .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#acznjfzslq .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#acznjfzslq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acznjfzslq .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#acznjfzslq .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acznjfzslq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#acznjfzslq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acznjfzslq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#acznjfzslq .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acznjfzslq .gt_left {
+  text-align: left;
+}
+
+#acznjfzslq .gt_center {
+  text-align: center;
+}
+
+#acznjfzslq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#acznjfzslq .gt_font_normal {
+  font-weight: normal;
+}
+
+#acznjfzslq .gt_font_bold {
+  font-weight: bold;
+}
+
+#acznjfzslq .gt_font_italic {
+  font-style: italic;
+}
+
+#acznjfzslq .gt_super {
+  font-size: 65%;
+}
+
+#acznjfzslq .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#acznjfzslq .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#acznjfzslq .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#acznjfzslq .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#acznjfzslq .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#acznjfzslq .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#acznjfzslq .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false"><caption>Table&nbsp;1:  <p>Participant characteristics</p> </caption>
+  <thead>
+    
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id=" "> </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Female">
+        <span class="gt_column_spanner">Female</span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Male">
+        <span class="gt_column_spanner">Male</span>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Included">Included</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Excluded">Excluded</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Included">Included</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Excluded">Excluded</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="variable" class="gt_row gt_center">n</td>
+<td headers="female_incl" class="gt_row gt_right">18</td>
+<td headers="female_excl" class="gt_row gt_right">4</td>
+<td headers="male_incl" class="gt_row gt_right">16</td>
+<td headers="male_excl" class="gt_row gt_right">3</td></tr>
+    <tr><td headers="variable" class="gt_row gt_center">Age</td>
+<td headers="female_incl" class="gt_row gt_right">22 (1.3)</td>
+<td headers="female_excl" class="gt_row gt_right">22.9 (1.6)</td>
+<td headers="male_incl" class="gt_row gt_right">23.6 (4.1)</td>
+<td headers="male_excl" class="gt_row gt_right">24.3 (1.5)</td></tr>
+    <tr><td headers="variable" class="gt_row gt_center">Weight (kg)</td>
+<td headers="female_incl" class="gt_row gt_right">64.4 (10)</td>
+<td headers="female_excl" class="gt_row gt_right">64.6 (9.7)</td>
+<td headers="male_incl" class="gt_row gt_right">75.8 (11)</td>
+<td headers="male_excl" class="gt_row gt_right">88.2 (22)</td></tr>
+    <tr><td headers="variable" class="gt_row gt_center">Height (cm)</td>
+<td headers="female_incl" class="gt_row gt_right">168 (6.9)</td>
+<td headers="female_excl" class="gt_row gt_right">166 (7.6)</td>
+<td headers="male_incl" class="gt_row gt_right">183 (5.9)</td>
+<td headers="male_excl" class="gt_row gt_right">189 (4.6)</td></tr>
+  </tbody>
+  
+  
+</table>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame with the provided data</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Category =</span> <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Included"</span>, <span class="st">"Excluded"</span>),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">3</span>),</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age =</span> <span class="fu">c</span>(<span class="st">"22.0 (1.3)"</span>, <span class="st">"22.9 (1.6)"</span>, <span class="st">"23.6 (4.1)"</span>, <span class="st">"24.3 (1.5)"</span>),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mass =</span> <span class="fu">c</span>(<span class="st">"64.4 (10.4)"</span>, <span class="st">"64.6 (9.7)"</span>, <span class="st">"75.8 (10.7)"</span>, <span class="st">"88.2 (22.4)"</span>),</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Stature =</span> <span class="fu">c</span>(<span class="st">"168 (7)"</span>, <span class="st">"166 (8)"</span>, <span class="st">"183 (6)"</span>, <span class="st">"189 (5)"</span>),</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Body_fat =</span> <span class="fu">c</span>(<span class="st">"34.1 (5.6)"</span>, <span class="st">"28.8 (8.7)"</span>, <span class="st">"20.4 (6.0)"</span>, <span class="st">"24.3 (15.3)"</span>),</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">MVC =</span> <span class="fu">c</span>(<span class="st">"3.1 (0.5)"</span>, <span class="st">"3.6 (0.5)"</span>, <span class="st">"3.7 (0.6)"</span>, <span class="st">"3.9 (0.7)"</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the table using kable</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>formatted_table <span class="ot">&lt;-</span> <span class="fu">kable</span>(data, <span class="at">align =</span> <span class="st">"c"</span>, <span class="at">caption =</span> <span class="st">"Summary Statistics"</span>, <span class="at">format =</span> <span class="st">"html"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="st">"striped"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_header_above</span>(<span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="st">"Group"</span> <span class="ot">=</span> <span class="dv">2</span>, <span class="st">"Anthropometrics"</span> <span class="ot">=</span> <span class="dv">4</span>))</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the formatted table</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(formatted_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;table class="table table-striped" style="margin-left: auto; margin-right: auto;"&gt;
-&lt;caption&gt;Summary Statistics&lt;/caption&gt;
- &lt;thead&gt;
-&lt;tr&gt;
-&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
-&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Group&lt;/div&gt;&lt;/th&gt;
-&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Anthropometrics&lt;/div&gt;&lt;/th&gt;
-&lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:center;"&gt; Category &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; N &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; Age &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; Mass &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; Stature &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; Body_fat &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; MVC &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Female &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 18 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 22.0 (1.3) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 64.4 (10.4) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 168 (7) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 34.1 (5.6) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 3.1 (0.5) &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Male &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 22.9 (1.6) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 64.6 (9.7) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 166 (8) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 28.8 (8.7) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 3.6 (0.5) &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Included &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 16 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 23.6 (4.1) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 75.8 (10.7) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 183 (6) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 20.4 (6.0) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 3.7 (0.6) &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; Excluded &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 24.3 (1.5) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 88.2 (22.4) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 189 (5) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 24.3 (15.3) &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 3.9 (0.7) &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
 </div>
 </div>
+</div>
+<p>Data is presented as mean ± standard deviation.</p>
+</section>
+<section id="study-overview" class="level4">
+<h4 class="anchored" data-anchor-id="study-overview">Study overview</h4>
+<p>The intervention took place over a 12-week period from September to November and involved full-body resistance training. To differentiate training volume within each participant, leg exercises were performed unilaterally (each participant had one leg randomly assigned to perform a single set of exercises, while the other leg performed three sets of exercises). This meant each participant was able to undergo both training protocols during the study. Muscle strength was evaluated before and after the intervention, and muscle biopsies were taken from the vastus lateralis muscle in both legs at the beginning and end of the study.</p>
+</section>
+<section id="protocol" class="level4">
+<h4 class="anchored" data-anchor-id="protocol">Protocol</h4>
+<p>Before each training session, participants followed a structured warm-up routine: They began with a 5-minute session on an ergometer, cycling at a moderate level of perceived exertion. Next, they performed 10 repetitions of various bodyweight exercises, which included customized difficulty levels for push-ups, sit-ups, back-extensions, and squats. Then, participants completed a set of 10 repetitions at approximately 50% of their one-repetition maximum (1RM) for each exercise. For leg exercises, each participant’s legs were randomly assigned to either a single-set or multiple-set (three sets) protocol. Single-set leg exercises were integrated between the second and third set of the thre multiple-set leg exercises. During the intervention, training intensity increased progressively. The first two weeks participants used a weight corresponding to 10RM, followed by three weeks at 8RM, and the remaining seven weeks at 7RM. Some training sessions were unsupervised due to the participants’ schedules. On average, 91% of the sessions were supervised. Participants were required to maintain detailed records for unsupervised sessions to be able to monitor their progress. From training session nine, one of the three weekly sessions involved reduced loads, equivalent to 90% of the weight used in the previous session but with the same target number of repetitions.</p>
+</section>
+<section id="muscle-strength-assessment" class="level4">
+<h4 class="anchored" data-anchor-id="muscle-strength-assessment">Muscle strength assessment</h4>
+<p>To assess muscle strength, a 1RM test was conducted using a leg press machine. Before each testing session, participants performed a warm-up which involved performing sets of ten, six, and three repetitions at respectively 50%, 75% and 85% of their expected max. After the warm-up, 1RM was determined by gradually increasing the resistance until the participants were not able to complete a full range of motion lift. The heaviest weight that they successfully lifted was recorded as their 1RM. Each participant had the opportunity to make between four and six attempts to increase their 1RM.</p>
+</section>
+<section id="lean-muscle-mass-measurement" class="level4">
+<h4 class="anchored" data-anchor-id="lean-muscle-mass-measurement">Lean muscle mass measurement</h4>
+<p>Lean muscle mass was assessed before and after the 12-week intervention using dual-energy X-ray absorptiometry (DXA) (Lunar Prodigy, GE Healthcare, Oslo, Norway). The assessments followed a standard protocol.</p>
+</section>
+<section id="data-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="data-analysis">Data analysis</h4>
+<p>Data analysis was performed in RStudio. To compare changes in MM and MS, a paired t-test was utilized. Significance level was set to p &lt; 0.05.</p>
 </section>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="analyzing-repeated-measures-experiments_files/figure-html/fig-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Mean change in muscle strength</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Figure 1 shows the differences in 1RM in leg press between single-set and multiple-set. The average difference in 1RM between sets were 7.2 kg, 95% CI: [0.9, 13.5], p = 0.026. Both legs have increased in muscle strength, but the legs that did three sets have increased significantly more than the legs that did one set.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="analyzing-repeated-measures-experiments_files/figure-html/fig-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Mean change in muscle mass</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Figure 2 shows the differences in lean mass between single-set and multiple-set. The average difference in lean mass changes between sets were 122.8 g, 95% CI: [8.6, 237], p = 0.036. Both legs have increased muscle mass but the legs that did three sets have increased significantly more than the legs that did one set.</p>
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
+<p>The purpose of this study was to investigate the development in muscle strength and muscle mass in untrained individuals with different resistance training volume. A significant difference in both muscle strength and muscle mass could be seen in favor of the legs that did three sets as opposed to one set.</p>
+<p>The results supports finds from previous studies <span class="citation" data-cites="schoenfeld_2019">(<a href="#ref-schoenfeld_2019" role="doc-biblioref">Schoenfeld et al. 2019</a>)</span>. Schoenfeld’s study was conducted on trained men, and it was unknown if the same would apply to beginners as well. Beginners usually has few problems seeing progression when starting with a resistance training program. In figure 1 and figure 2 we can observe the subjects gaining respectively muscle strength and muscle mass from both the single-set protocol and the multiple-set protocol. It is fair to assume that if the intervention had lasted longer, the single-set would at some point have stagnated more than the multiple-set as the subjects increased in muscle strength and muscle mass.</p>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
+<p>For untrained individuals who works out to enjoy the health benefits of resistance training, a single-set workout will be adequate up to a certain point. If resistance training is found to be enjoyable and the individuals want to see more progression, a higher volume is preferrable and will yield a significantly higher level of muscle strength and muscle mass. This may even be required after a certain point in time to see any progression, but research over a longer period of time is needed to say this with certainty.</p>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-acsm_2009" class="csl-entry" role="listitem">
+ACSM. 2009. <span>“American College of Sports Medicine Position Stand. Progression Models in Resistance Training for Healthy Adults.”</span> Journal Article. <em>Med Sci Sports Exerc</em> 41 (3): 687–708. <a href="https://doi.org/10.1249/MSS.0b013e3181915670">https://doi.org/10.1249/MSS.0b013e3181915670</a>.
+</div>
+<div id="ref-cadore_2018" class="csl-entry" role="listitem">
+Cadore, Eduardo Lusa, Erik Menger, Juliana Lopes Teodoro, Larissa Xavier Neves da Silva, Francesco Pinto Boeno, Daniel Umpierre, Cíntia Ehlers Botton, et al. 2018. <span>“Functional and Physiological Adaptations Following Concurrent Training Using Sets with and Without Concentric Failure in Elderly Men: A Randomized Clinical Trial.”</span> Journal Article. <em>Experimental Gerontology</em> 110: 182–90. https://doi.org/<a href="https://doi.org/10.1016/j.exger.2018.06.011">https://doi.org/10.1016/j.exger.2018.06.011</a>.
+</div>
+<div id="ref-de_zouza_2018" class="csl-entry" role="listitem">
+De Souza, Eduardo O., Valmor Tricoli, Jacob Rauch, Michael R. Alvarez, Gilberto Laurentino, André Y. Aihara, Fabiano N. Cardoso, Hamilton Roschel, and Carlos Ugrinowitsch. 2018. <span>“Different Patterns in Muscular Strength and Hypertrophy Adaptations in Untrained Individuals Undergoing Nonperiodized and Periodized Strength Regimens.”</span> Journal Article. <em>The Journal of Strength &amp; Conditioning Research</em> 32 (5). <a href="https://journals.lww.com/nsca-jscr/fulltext/2018/05000/different_patterns_in_muscular_strength_and.7.aspx">https://journals.lww.com/nsca-jscr/fulltext/2018/05000/different_patterns_in_muscular_strength_and.7.aspx</a>.
+</div>
+<div id="ref-figueiredo_2018" class="csl-entry" role="listitem">
+Figueiredo, de Salles, V. C., and G. S. Trajano. 2018. <span>“Volume for Muscle Hypertrophy and Health Outcomes: The Most Effective Variable in Resistance Training.”</span> <em>Sports Medicine</em> 48 (6): 499–505. https://doi.org/<a href="https://doi.org/10.1007/s40279-017-0793-0">https://doi.org/10.1007/s40279-017-0793-0</a>.
+</div>
+<div id="ref-gordon_2017" class="csl-entry" role="listitem">
+Gordon, B. R., C. P. McDowell, M. Lyons, and M. P. Herring. 2017. <span>“The Effects of Resistance Exercise Training on Anxiety: A Meta-Analysis and Meta-Regression Analysis of Randomized Controlled Trials.”</span> Journal Article. <em>Sports Med</em> 47 (12): 2521–32. <a href="https://doi.org/10.1007/s40279-017-0769-0">https://doi.org/10.1007/s40279-017-0769-0</a>.
+</div>
+<div id="ref-kennis_2013" class="csl-entry" role="listitem">
+Kennis, Eva, Sabine M. Verschueren, An Bogaerts, Evelien Van Roie, Steven Boonen, and Christophe Delecluse. 2013. <span>“Long-Term Impact of Strength Training on Muscle Strength Characteristics in Older Adults.”</span> Journal Article. <em>Archives of Physical Medicine and Rehabilitation</em> 94 (11): 2054–60. https://doi.org/<a href="https://doi.org/10.1016/j.apmr.2013.06.018">https://doi.org/10.1016/j.apmr.2013.06.018</a>.
+</div>
+<div id="ref-schoenfeld_2019" class="csl-entry" role="listitem">
+Schoenfeld, B. J., B. Contreras, J. Krieger, J. Grgic, K. Delcastillo, R. Belliard, and A. Alto. 2019. <span>“Resistance Training Volume Enhances Muscle Hypertrophy but Not Strength in Trained Men.”</span> Journal Article. <em>Med Sci Sports Exerc</em> 51 (1): 94–103. <a href="https://doi.org/10.1249/mss.0000000000001764">https://doi.org/10.1249/mss.0000000000001764</a>.
+</div>
+<div id="ref-westcott_2012" class="csl-entry" role="listitem">
+Westcott, W. L. 2012. <span>“Resistance Training Is Medicine: Effects of Strength Training on Health.”</span> Journal Article. <em>Curr Sports Med Rep</em> 11 (4): 209–16. <a href="https://doi.org/10.1249/JSR.0b013e31825dabb8">https://doi.org/10.1249/JSR.0b013e31825dabb8</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
