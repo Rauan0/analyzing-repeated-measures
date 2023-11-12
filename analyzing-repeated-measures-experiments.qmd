@@ -17,7 +17,6 @@ bibliography: bibliography.bib
 
 library(tidyverse)
 library(exscidata)
-library(lme4)
 library(gt)
 
 data("strengthvolume")
