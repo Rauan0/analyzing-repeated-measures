@@ -1,7 +1,8 @@
 ---
 title: "The effect of different resistance training volumes on muscle strength and muscle mass in untrained individuals"
+output: 
+  format: pdf
 author: "Anders Rauan"
-format: pdf
 editor: visual
 editor_options: 
   chunk_output_type: console

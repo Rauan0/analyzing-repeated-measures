@@ -1,13 +1,15 @@
 ---
 title: "The effect of different resistance training volumes on muscle strength and muscle mass in untrained individuals"
+output: 
+  format: pdf
 author: "Anders Rauan"
-format: pdf
 editor: visual
 editor_options: 
   chunk_output_type: console
 linestretch: 1.5
 bibliography: bibliography.bib
 ---
+
 
 
 
@@ -27,6 +29,7 @@ With this in mind, the purpose of this study is to investigate developments in m
 The study had a total of 41 participants recruited, both male and female. Inclusion criteria for the participants was non-smoking and aged between 18 and 40 years old. Participants who were unable to tolerate local anaesthetic, had a prior training history of more than one weekly resistance-exercise session within the last year leading up to the intervention, had impaired muscle strength due to previous or ongoing injury, or were taking prescribed medication that could impact adaptions to training were excluded from the study. During the data analysis, seven participants were excluded. The reasons for their exclusion were: five participants experienced discomfort or pain in their lower extremities during exercise, one participant had an unrelated injury, and one participant did not follow the study protocol. All of the participants included in the study reported having previous experience with sporting activities such as team sports, cross-country skiing and gymnastics. At the time of enrollment, twenty participants reported being engaged in physical training. The median number of sessions per week was two, with a range of 0.5 to 4. Out of these participants, ten performed occasional resistance-type training, but none of them did it more than once per week.
 
 
+
 ::: {#tbl-part .cell tbl-cap='Participant characteristics'}
 ::: {.cell-output-display}
 \begin{longtable}{crrrr}
@@ -43,6 +46,7 @@ Height (cm) & 168 (6.9) & 166 (7.6) & 183 (5.9) & 189 (4.6) \\
 \end{longtable}
 :::
 :::
+
 
 Data is presented as mean ± standard deviation.
 
@@ -69,6 +73,7 @@ Data analysis was performed in RStudio. To compare changes in MM and MS, a paire
 # Results
 
 
+
 ::: {.cell}
 
 :::
@@ -81,13 +86,16 @@ Data analysis was performed in RStudio. To compare changes in MM and MS, a paire
 :::
 :::
 
+
 Figure 1 shows the differences in 1RM in leg press between single-set and multiple-set. The average difference in 1RM between sets were 7.2 kg, 95% CI: [0.9, 13.5], p = 0.026. Both legs have increased in muscle strength, but the legs that did three sets have increased significantly more than the legs that did one set.
+
 
 ::: {.cell}
 ::: {.cell-output-display}
 ![Mean change in muscle mass](analyzing-repeated-measures-experiments_files/figure-pdf/fig-2-1.pdf){#fig-2}
 :::
 :::
+
 
 Figure 2 shows the differences in lean mass between single-set and multiple-set. The average difference in lean mass changes between sets were 122.8 g, 95% CI: [8.6, 237], p = 0.036. Both legs have increased muscle mass but the legs that did three sets have increased significantly more than the legs that did one set.
 
